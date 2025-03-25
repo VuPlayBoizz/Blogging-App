@@ -60,13 +60,13 @@ module "application-server" {
 }
 
 module "rds-subnet-group" {
-    source                  = "./Modules/06_aws_rds/01_aws_rds_subnet_groups"
+    source                  = "./Modules/03_aws_rds/01_aws_rds_subnet_groups"
     private_subnet_ids      = module.aws-subnet.private_subnet_ids
     rds_subnet_group_name   = "rds-subnet-group"
 }
 
 module "rds-database" {
-    source                      = "./Modules/06_aws_rds/02_aws_rds"
+    source                      = "./Modules/03_aws_rds/02_aws_rds"
     db_identifier               = var.db_identifier
     db_name                     = var.db_name
     engine                      = var.engine
