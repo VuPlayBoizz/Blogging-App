@@ -48,7 +48,7 @@ variable "eks_vpc_cidr" {
     description = "The CIDR block for the EKS VPC"
     type        = string
 }
-variable "ec2_vpc_cidr" {
+variable "database_vpc_cidr" {
     description = "Nat Gateway IP address"
     type        = string
 }

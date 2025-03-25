@@ -51,19 +51,19 @@ resource "aws_ec2_managed_prefix_list" "tgw_prefix_list" {
 
 # Thêm route vào từng route table để gửi traffic qua Transit Gateway
 resource "aws_route" "eks_to_tgw" {
-  route_table_id         = data.aws_route_table.eks_private_rt.id
+  route_table_id         = data.aws_route_table.eks_private_rtb.id
   destination_prefix_list_id = aws_ec2_managed_prefix_list.tgw_prefix_list.id
   transit_gateway_id     = aws_ec2_transit_gateway.tgw.id
 }
 
 resource "aws_route" "jenkins_to_tgw" {
-  route_table_id         = data.aws_route_table.jenkins_private_rt.id
+  route_table_id         = data.aws_route_table.jenkins_private_rtb.id
   destination_prefix_list_id = aws_ec2_managed_prefix_list.tgw_prefix_list.id
   transit_gateway_id     = aws_ec2_transit_gateway.tgw.id
 }
 
-resource "aws_route" "ec2_instance_to_tgw" {
-  route_table_id         = data.aws_route_table.ec2_instance_private_rt.id
+resource "aws_route" "database_to_tgw" {
+  route_table_id         = data.aws_route_table.database_private_rtb.id
   destination_prefix_list_id = aws_ec2_managed_prefix_list.tgw_prefix_list.id
   transit_gateway_id     = aws_ec2_transit_gateway.tgw.id
 }

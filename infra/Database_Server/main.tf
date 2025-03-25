@@ -59,53 +59,6 @@ module "application-server" {
     associate_public_ip_address = true 
 }
 
-module "aws-instance-target-group" {
-    source                      = "./Modules/03_aws_loadbalancer/01_aws_target_groups"
-    vpc_id                      = module.aws-vpc.vpc_id
-    ec2_instance_id             = module.application-server.master_instance_id   
-    lb_target_group_name        = var.lb_target_group_name
-    lb_target_group_port        = var.lb_target_group_port
-    lb_target_group_protocol    = var.lb_target_group_protocol
-}
-
-module "application-loadbalancer" {
-    source                      = "./Modules/03_aws_loadbalancer/02_application_loadbalancer"
-    lb_name                     = var.lb_name
-    is_external                 = var.is_external
-    lb_type                     = var.lb_type
-    sg_enable_ssh_https         = module.aws-security-group.ec2_security_group_id
-    subnet_ids                  = module.aws-subnet.public_subnet_ids
-    
-    lb_listner_port             = var.lb_listner_port
-    lb_listner_protocol         = var.lb_listner_protocol
-    lb_listner_default_action   = var.lb_listner_default_action
-    
-    lb_target_group_arn         = module.aws-instance-target-group.instance_target_group_arn
-    ec2_instance_id             = module.application-server.master_instance_id
-    
-    lb_https_listner_port           = var.lb_https_listner_port
-    lb_https_listner_protocol       = var.lb_https_listner_protocol
-    devops_project_acm_arn          = module.aws_ceritification_manager.certificate_arn
-    lb_target_group_attachment_port = var.lb_target_group_attachment_port
-    tags                            = var.tags
-}
-
-module "aws_ceritification_manager" {
-    source                          = "./Modules/04_certificate_manager"
-    certificate_domain_name         = var.certificate_domain_name
-    certificate_validation_method   = var.certificate_validation_method
-    route53_zone_id                 = module.hosted_zone.hosted_zone_id
-    tags                            = var.tags
-}
-
-module "hosted_zone" {
-    source          = "./Modules/05_route_53/01_hosted_zones"
-    name_of_dns     = var.name_of_dns
-    domain_name     = var.domain_name
-    aws_lb_dns_name = module.application-loadbalancer.aws_lb_dns_name
-    aws_lb_zone_id  = module.application-loadbalancer.aws_lb_zone_id
-}
-
 module "rds-subnet-group" {
     source                  = "./Modules/06_aws_rds/01_aws_rds_subnet_groups"
     private_subnet_ids      = module.aws-subnet.private_subnet_ids

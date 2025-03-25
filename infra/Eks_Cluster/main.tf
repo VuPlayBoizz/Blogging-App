@@ -51,7 +51,7 @@ module "prefix_list" {
     source              = "./Modules/06_aws_prefix-list"
     jenkins_vpc_cidr    = var.jenkins_vpc_cidr
     eks_vpc_cidr        = var.eks_vpc_cidr
-    ec2_vpc_cidr        = var.ec2_vpc_cidr
+    ec2_vpc_cidr        = var.database_vpc_cidr
     My_computer_ip      = var.My_computer_ip
 }
 

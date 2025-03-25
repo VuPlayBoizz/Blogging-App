@@ -62,79 +62,7 @@ variable "script_name" {
     type        = string
 }
 
-//Define the variables in aws_target_groups module
-variable "lb_target_group_name" {
-    description = "The name for the target group"
-    type        = string
-}
-variable "lb_target_group_port" {
-    description = "The port for the target group"
-    type        = number
-}
-variable "lb_target_group_protocol" {
-    description = "The protocol for the target group"
-    type        = string
-}
 
-//Define the variables in aws_loadbalancer module
-variable "lb_name" {
-    description = "The name of the Load Balancer"
-    type        = string
-}
-variable "lb_type" {
-    description = "The type of the Load Balancer"
-    type        = string
-}
-variable "is_external" {
-    description = "A boolean flag to specify if the Load Balancer is external or internal"
-    type        = bool
-}
-variable "lb_listner_port" {
-    description = "The port for the Load Balancer listener"
-    type        = number
-}
-variable "lb_listner_protocol" {
-    description = "The port for the Load Balancer listener"
-    type        = string
-}
-variable "lb_listner_default_action" {
-    description = "The default action for the Load Balancer listener"
-    type        = string
-}
-variable "lb_https_listner_port" {
-    description = "The port for the Load Balancer listener"
-    type        = number
-}
-variable "lb_https_listner_protocol" {
-    description = "The port for the Load Balancer listener"
-    type        = string
-}
-variable "lb_target_group_attachment_port" {
-    description = "The port for the Load Balancer listener"
-    type        = number
-}
-
-//Define the variables in aws_certificate_manager module
-variable "certificate_domain_name" {
-    description = "Tên miền cho chứng chỉ SSL"
-    type        = string
-}
-
-variable "certificate_validation_method" {
-    description = "Phương thức xác minh chứng chỉ (DNS hoặc EMAIL)"
-    type        = string
-}
-
-//Define the variables in aws_route53 module
-variable "name_of_dns" {
-  description = "Tên miền của Hosted Zone"
-  type        = string
-}
-
-variable "domain_name" {
-  description = "Tên miền để tạo bản ghi A"
-  type        = string
-}
 
 // Define the variables in aws_rds module
 variable "db_identifier" {

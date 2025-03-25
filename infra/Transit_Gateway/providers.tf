@@ -27,10 +27,10 @@ data "aws_vpc" "jenkins_vpc" {
     }
 }
 
-data "aws_vpc" "ec2_instance_vpc" {
+data "aws_vpc" "database_vpc" {
     filter {
         name   = "tag:Name"
-        values = ["ec2-instance-vpc"]
+        values = ["database-vpc"]
     }
 }
 
@@ -59,20 +59,20 @@ data "aws_subnets" "jenkins_private_subnets" {
     }
   }
 
-data "aws_subnets" "ec2_instance_private_subnets" {
+data "aws_subnets" "database_private_subnets" {
     filter {
         name   = "vpc-id"
-        values = [data.aws_vpc.ec2_instance_vpc.id]
+        values = [data.aws_vpc.database_vpc.id]
     }
 
     filter {
         name   = "tag:Name"
-        values = ["ec2-instance-vpc-private-subnet-*"]
+        values = ["database-vpc-private-subnet-*"]
     }
 }
 
 # Lấy thông tin route tables của từng VPC (Chỉ lấy route tables của private subnets)
-data "aws_route_table" "eks_private_rt" {
+data "aws_route_table" "eks_private_rtb" {
     vpc_id = data.aws_vpc.eks_vpc.id
     filter {
         name   = "tag:Name"
@@ -80,7 +80,7 @@ data "aws_route_table" "eks_private_rt" {
     }
 }
 
-data "aws_route_table" "jenkins_private_rt" {
+data "aws_route_table" "jenkins_private_rtb" {
     vpc_id = data.aws_vpc.jenkins_vpc.id
     filter {
         name   = "tag:Name"
@@ -88,10 +88,10 @@ data "aws_route_table" "jenkins_private_rt" {
     }
 }
 
-data "aws_route_table" "ec2_instance_private_rt" {
+data "aws_route_table" "database_private_rtb" {
     vpc_id = data.aws_vpc.ec2_instance_vpc.id
     filter {
         name   = "tag:Name"
-        values = ["ec2-instance-vpc-private-rtb"]
+        values = ["database-vpc-private-rtb"]
     }
 }
