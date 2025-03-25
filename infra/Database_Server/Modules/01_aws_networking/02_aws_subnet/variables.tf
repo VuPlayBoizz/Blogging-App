@@ -3,20 +3,22 @@ variable "vpc_id" {
     type        = string
 }
 
-variable "public_subnet_cidr_block" {
+variable "cidr_public_subnet" {
     description = "The CIDR block for the public subnet"
-    type        = string
+    type        = list(string)
 }
 
-variable "private_subnet_cidr_block" {
+variable "cidr_private_subnet" {
     description = "The CIDR block for the private subnet"
-    type        = string
+    type        = list(string)
 }
+
 variable "availability_zone" {
     description = "The availability zone"
-    type        = string
+    type        = list(string)
 }
+
 variable "tags" {
-    description = "The tags for the resources"
+    description = "The tags for the subnet"
     type        = map(string)
 }

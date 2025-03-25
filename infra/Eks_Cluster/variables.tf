@@ -39,17 +39,17 @@ variable "availability_zone" {
 // Define the variables in aws_igw module
 // Define the variables in aws_nat module
 // Define the variables in aws_route module
-// Define the variables in aws_prefix_list module
-variable "eks_vpc_cidr" {
-    description = "The CIDR block for the EKS VPC"
-    type        = string
-}
+// Define the variables in aws_prefix-list module
 variable "jenkins_vpc_cidr" {
     description = "The CIDR block for the Jenkins VPC"
     type        = string
 }
+variable "eks_vpc_cidr" {
+    description = "The CIDR block for the EKS VPC"
+    type        = string
+}
 variable "ec2_vpc_cidr" {
-    description = "The CIDR block for the ec2 VPC"
+    description = "Nat Gateway IP address"
     type        = string
 }
 // Define the variables in aws_security_group module
@@ -83,6 +83,7 @@ variable "private_key_path" {
     description = "The path to the private key"
     type        = string
 }
+// Define the variables in aws_ec2 module
 
 // Define the variables in aws_eks module
 variable "kubernetes_version" {

@@ -14,6 +14,5 @@ variable "security_groups_id" {
     type = list(string)
 }
 variable "name" {
-    description = "The name of the EC2 instance"
-    type        = string
+    type = string
 }

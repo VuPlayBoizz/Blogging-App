@@ -10,26 +10,26 @@ variable "region" {
     type = string
 }
 
-// Define the variables in aws_vpc module
+// Define the variables for the aws_vpc module
 variable "cidr_block" {
     description = "The CIDR block for the VPC"
     type        = string
-}
-variable "enable_dns_hostnames" {
-    description = "A boolean flag to enable/disable DNS hostnames in the VPC"
-    type        = bool
 }
 variable "enable_dns_support" {
     description = "A boolean flag to enable/disable DNS support in the VPC"
     type        = bool
 }
+variable "enable_dns_hostnames" {
+    description = "A boolean flag to enable/disable DNS hostnames in the VPC"
+    type        = bool
+}
 
-// Define the variables in aws_subnet module
-variable "public_subnet_cidr_block" {
+// Define the variables for the aws_subnet module
+variable "cidr_public_subnet" {
     description = "The CIDR block for the public subnet"
     type        = list(string)
 }
-variable "private_subnet_cidr_block" {
+variable "cidr_private_subnet" {
     description = "The CIDR block for the private subnet"
     type        = list(string)
 }
@@ -45,15 +45,95 @@ variable "My_computer_ip" {
     description = "The IP address of the computer"
     type        = string
 }
-// Define the variables in aws_key_pair module
+
+//Define the aws_key_pair variable
 variable "key_name" {
-    description = "The name of the key pair"
+    description = "Name of the key pair"
     type        = string
 }
-// Define the variables in aws_ec2 module
+
+//Define the variables in aws_jenkins_master module
 variable "instance_type" {
-    description = "The instance type"
+    description = "The instance type to use"
     type        = string
+}
+variable "script_name" {
+    description = "The name of the script to run"
+    type        = string
+}
+
+//Define the variables in aws_target_groups module
+variable "lb_target_group_name" {
+    description = "The name for the target group"
+    type        = string
+}
+variable "lb_target_group_port" {
+    description = "The port for the target group"
+    type        = number
+}
+variable "lb_target_group_protocol" {
+    description = "The protocol for the target group"
+    type        = string
+}
+
+//Define the variables in aws_loadbalancer module
+variable "lb_name" {
+    description = "The name of the Load Balancer"
+    type        = string
+}
+variable "lb_type" {
+    description = "The type of the Load Balancer"
+    type        = string
+}
+variable "is_external" {
+    description = "A boolean flag to specify if the Load Balancer is external or internal"
+    type        = bool
+}
+variable "lb_listner_port" {
+    description = "The port for the Load Balancer listener"
+    type        = number
+}
+variable "lb_listner_protocol" {
+    description = "The port for the Load Balancer listener"
+    type        = string
+}
+variable "lb_listner_default_action" {
+    description = "The default action for the Load Balancer listener"
+    type        = string
+}
+variable "lb_https_listner_port" {
+    description = "The port for the Load Balancer listener"
+    type        = number
+}
+variable "lb_https_listner_protocol" {
+    description = "The port for the Load Balancer listener"
+    type        = string
+}
+variable "lb_target_group_attachment_port" {
+    description = "The port for the Load Balancer listener"
+    type        = number
+}
+
+//Define the variables in aws_certificate_manager module
+variable "certificate_domain_name" {
+    description = "Tên miền cho chứng chỉ SSL"
+    type        = string
+}
+
+variable "certificate_validation_method" {
+    description = "Phương thức xác minh chứng chỉ (DNS hoặc EMAIL)"
+    type        = string
+}
+
+//Define the variables in aws_route53 module
+variable "name_of_dns" {
+  description = "Tên miền của Hosted Zone"
+  type        = string
+}
+
+variable "domain_name" {
+  description = "Tên miền để tạo bản ghi A"
+  type        = string
 }
 
 // Define the variables in aws_rds module
@@ -116,4 +196,3 @@ variable "parameter_group_name" {
   description = "The name of the DB parameter group to associate"
   type        = string
 }
-

@@ -6,7 +6,7 @@
 /infra/*/terraform.tfvars
 /infra/*/*.tfstate*
 /infra/*/*.backup
-/infra/*/Modules/*/*/*.pem
+/infra/*/Modules/*/*.pem
 
 #################################
 ######### Maven files ###########
