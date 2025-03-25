@@ -1,12 +1,12 @@
 ###################################
 ######### Terraform files #########
 ###################################
-/infra/.terraform/
-/infra/.terraform.*
-/infra/terraform.tfvars
-/infra/*.tfstate*
-/infra/*.backup
-/infra/Modules/*/*/*.pem
+/infra/*/.terraform/
+/infra/*/.terraform.*
+/infra/*/terraform.tfvars
+/infra/*/*.tfstate*
+/infra/*/*.backup
+/infra/*/Modules/*/*/*.pem
 
 #################################
 ######### Maven files ###########
