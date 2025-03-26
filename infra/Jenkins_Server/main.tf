@@ -87,7 +87,6 @@ module "Sonar-server" {
     name                        = "Sonar-Server"
     associate_public_ip_address = true  
 
-    depends_on                  = [module.Jenkin-server]
 }
 
 module "Nexus-server" {
@@ -102,7 +101,6 @@ module "Nexus-server" {
     name                        = "Nexus-Server"
     associate_public_ip_address = true  
 
-    depends_on                  = [module.Sonar-server]
 }
 
 module "Monitoring-server" {
@@ -117,7 +115,6 @@ module "Monitoring-server" {
     name                        = "Monitoring-Server"
     associate_public_ip_address = true  
 
-    depends_on                  = [module.Sonar-server]   
 }
 
 module "jenkin-agent" {
@@ -131,7 +128,7 @@ module "jenkin-agent" {
     name                        = "Jenkins-Agent"
     associate_public_ip_address = false
 
-    depends_on                  = [module.Monitoring-server]    
+    depends_on                  = [module.Jenkin-server]    
 }
 
 
