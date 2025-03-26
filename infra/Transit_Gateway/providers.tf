@@ -89,7 +89,7 @@ data "aws_route_table" "jenkins_private_rtb" {
 }
 
 data "aws_route_table" "database_private_rtb" {
-    vpc_id = data.aws_vpc.ec2_instance_vpc.id
+    vpc_id = data.aws_vpc.database_vpc.id
     filter {
         name   = "tag:Name"
         values = ["database-vpc-private-rtb"]

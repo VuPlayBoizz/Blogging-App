@@ -14,7 +14,7 @@ output "jenkins_vpc_id" {
   value       = data.aws_vpc.jenkins_vpc.id
 }
 
-output "ec2_instance_vpc_id" {
+output "database_vpc_id" {
   description = "ID của ec2-instance-vpc"
-  value       = data.aws_vpc.ec2_instance_vpc.id
+  value       = data.aws_vpc.database_vpc.id
 }
