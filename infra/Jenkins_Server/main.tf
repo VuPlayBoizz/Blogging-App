@@ -82,27 +82,11 @@ module "Sonar-server" {
     key_name                    = module.key-pair.key_name
     subnet_id                   = module.vpc-subnet.public_subnet_id
     security_groups_id          = module.security-group.public_security_group_id
-    script_name                 = "sonarqube-init.sh"
-    workspace_path              = "/tools/sonarqube"
-    name                        = "Sonar-Server"
+    script_name                 = "sonarqube-nexus-init.sh"
+    workspace_path              = "/tools/sonarqube-nexus"
+    name                        = "Sonar-Nexus-Server"
     associate_public_ip_address = true  
 
-    depends_on                  = [module.Jenkin-server]
-}
-
-module "Nexus-server" {
-    source                      = "./Modules/09_aws_ec2_master"
-    instance_type               = var.instance_type[0]
-    private_key_path            = var.private_key_path    
-    key_name                    = module.key-pair.key_name
-    subnet_id                   = module.vpc-subnet.public_subnet_id
-    security_groups_id          = module.security-group.public_security_group_id
-    script_name                 = "nexus-init.sh"
-    workspace_path              = "/tools/nexus"
-    name                        = "Nexus-Server"
-    associate_public_ip_address = true  
-
-    depends_on                  = [module.Sonar-server]
 }
 
 module "Monitoring-server" {
@@ -117,7 +101,6 @@ module "Monitoring-server" {
     name                        = "Monitoring-Server"
     associate_public_ip_address = true  
 
-    depends_on                  = [module.Sonar-server]   
 }
 
 module "jenkin-agent" {
@@ -131,7 +114,7 @@ module "jenkin-agent" {
     name                        = "Jenkins-Agent"
     associate_public_ip_address = false
 
-    depends_on                  = [module.Monitoring-server]    
+    depends_on                  = [module.Jenkin-server]    
 }
 
 
