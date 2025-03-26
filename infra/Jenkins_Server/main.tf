@@ -82,23 +82,9 @@ module "Sonar-server" {
     key_name                    = module.key-pair.key_name
     subnet_id                   = module.vpc-subnet.public_subnet_id
     security_groups_id          = module.security-group.public_security_group_id
-    script_name                 = "sonarqube-init.sh"
-    workspace_path              = "/tools/sonarqube"
-    name                        = "Sonar-Server"
-    associate_public_ip_address = true  
-
-}
-
-module "Nexus-server" {
-    source                      = "./Modules/09_aws_ec2_master"
-    instance_type               = var.instance_type[0]
-    private_key_path            = var.private_key_path    
-    key_name                    = module.key-pair.key_name
-    subnet_id                   = module.vpc-subnet.public_subnet_id
-    security_groups_id          = module.security-group.public_security_group_id
-    script_name                 = "nexus-init.sh"
-    workspace_path              = "/tools/nexus"
-    name                        = "Nexus-Server"
+    script_name                 = "sonarqube-nexus-init.sh"
+    workspace_path              = "/tools/sonarqube-nexus"
+    name                        = "Sonar-Nexus-Server"
     associate_public_ip_address = true  
 
 }
