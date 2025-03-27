@@ -20,8 +20,8 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "jenkins_tgw_attachment" {
 
 resource "aws_ec2_transit_gateway_vpc_attachment" "ec2_instance_tgw_attachment" {
     transit_gateway_id  = aws_ec2_transit_gateway.tgw.id
-    vpc_id              = data.aws_vpc.ec2_instance_vpc.id
-    subnet_ids          = data.aws_subnets.ec2_instance_private_subnets.ids
+    vpc_id              = data.aws_vpc.database_vpc.id
+    subnet_ids          = data.aws_subnets.database_private_subnets.ids
 }
 
 resource "aws_ec2_managed_prefix_list" "tgw_prefix_list" {

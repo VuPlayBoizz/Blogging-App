@@ -21,14 +21,14 @@ resource "aws_security_group" "public-sg" {
         from_port   = 80
         to_port     = 80
         protocol    = "tcp"
-        prefix_list_ids = [var.prefix_list_ids]
+        cidr_blocks = ["0.0.0.0/0"]
     }
 
     ingress {
         from_port   = 443
         to_port     = 443
         protocol    = "tcp"
-        prefix_list_ids = [var.prefix_list_ids]
+        cidr_blocks = ["0.0.0.0/0"]
     }
 
     ingress {
@@ -42,27 +42,27 @@ resource "aws_security_group" "public-sg" {
         from_port   = 6443
         to_port     = 6443
         protocol    = "tcp"
-        prefix_list_ids = [var.prefix_list_ids]
+        cidr_blocks = ["0.0.0.0/0"]
     }
 
     ingress {
         from_port   = 3000
         to_port     = 10000
         protocol    = "tcp"
-        prefix_list_ids = [var.prefix_list_ids]
+        cidr_blocks = ["0.0.0.0/0"]
     }
     ingress {
         from_port   = 30000
         to_port     = 32767
         protocol    = "tcp"
-        prefix_list_ids = [var.prefix_list_ids]
+        cidr_blocks = ["0.0.0.0/0"]
     }
 
     ingress {
         from_port   = 50000
         to_port     = 50000
         protocol    = "tcp"
-        prefix_list_ids = [var.prefix_list_ids]
+        cidr_blocks = ["0.0.0.0/0"]
     }
 
     egress {

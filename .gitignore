@@ -17,3 +17,9 @@
 ######### Application config #########
 ######################################
 /src/main/resources/application.properties
+
+###########################
+######### vs code #########
+###########################
+.vscode/
+Taskfile.yml
