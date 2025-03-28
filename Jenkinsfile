@@ -28,6 +28,7 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'application-properties', variable: 'APPLICATION_PROPERTIES')]) {
                     script {
+                        sh 'sudo chmod -R 775 /home/ubuntu/jenkins_agent/workspace/Blogging-App'
                         sh "cp -f ${APPLICATION_PROPERTIES} src/main/resources/application.properties"
                     }
                 }
@@ -78,6 +79,18 @@ pipeline {
             steps {
                 sh "mvn package"
             }
-        }       
+        } 
+
+        stage('Publish to Nexus') {
+            steps {
+                withMaven(globalMavenSettingsConfig: 'maven-settings', 
+                          jdk: 'jdk17', 
+                          maven: 'maven3', 
+                          mavenSettingsConfig: '', 
+                          traceability: true) {
+                    sh "mvn deploy -DskipTests -DuniqueVersion=false"
+                }
+            }
+        }      
     }
 }
