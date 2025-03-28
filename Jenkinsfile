@@ -29,7 +29,7 @@ pipeline {
                 withCredentials([file(credentialsId: 'application-properties', variable: 'APPLICATION_PROPERTIES')]) {
                     script {                       
                         sh "cp -f ${APPLICATION_PROPERTIES} src/main/resources/application.properties"
-                        sh "sudo chmod -R 775 \"$(pwd)\""  
+                        sh 'sudo chmod -R 775 "$(pwd)"'
                     }
                 }
             }
