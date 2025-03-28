@@ -92,6 +92,88 @@ pipeline {
                     sh "mvn deploy -DskipTests -DuniqueVersion=false"
                 }
             }
-        }      
+        }
+
+        stage("Docker Build Images") {
+            steps {
+                script {
+                    // Đọc commit id từ file commit-id làm tag cho image Docker
+                    env.IMAGE_TAGS = readFile('commit-id').trim()
+                    env.IMAGE_NAME = "${DOCKER_USERNAME}/${PROJECT_NAME}:${IMAGE_TAGS}"
+
+                    sh "docker build -t ${env.IMAGE_NAME} ."
+                }
+            }
+        }
+
+        stage("Setup AWS Credentials") {
+            steps {
+                withCredentials([aws(credentialsId: 'aws-credentials', region: "${REGION}")]) {  
+                    script {
+                        env.AWS_ACCESS_KEY_ID = env.AWS_ACCESS_KEY_ID
+                        env.AWS_SECRET_ACCESS_KEY = env.AWS_SECRET_ACCESS_KEY
+                    }
+                    sh "aws sts get-caller-identity" 
+                }
+            }
+        }
+
+        stage("Create Private Repository on AWS ECR") {
+            steps {
+                script{
+                    sh '''
+                        echo "Checking if repository exists..."
+                        aws ecr describe-repositories --repository-names ${PROJECT_NAME} --region ${REGION} || \
+                        aws ecr create-repository --repository-name ${PROJECT_NAME} --region ${REGION}
+                    '''
+                }
+            }
+        }
+
+        stage("Push Docker images to AWS ECR") {
+            steps {
+                script {
+                    def ECR_REGISTRY = "${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com"
+                    
+                    echo "IMAGE_NAME: ${env.IMAGE_NAME}"
+                    echo "ECR_REGISTRY: ${ECR_REGISTRY}"
+                    echo "IMAGE_TAGS: ${env.IMAGE_TAGS}"
+
+                    sh "aws ecr get-login-password --region ${REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}"
+                    sh "docker tag ${env.IMAGE_NAME} ${ECR_REGISTRY}/${PROJECT_NAME}:${env.IMAGE_TAGS}"
+                    sh "docker push ${ECR_REGISTRY}/${PROJECT_NAME}:${env.IMAGE_TAGS}"
+                    sh "docker rmi -f ${env.IMAGE_NAME}"
+                    sh "docker rmi -f ${ECR_REGISTRY}/${PROJECT_NAME}:${env.IMAGE_TAGS}"
+                }
+            }
+        }
+
+        // stage("Setup ImagePullSecret") {
+        //     steps {
+        //         script {
+        //             withKubeConfig(caCertificate: '', 
+        //                         clusterName: '', 
+        //                         contextName: '', 
+        //                         credentialsId: 'eks-credentials', 
+        //                         namespace: '', 
+        //                         restrictKubeConfigAccess: false, 
+        //                         serverUrl: '') {
+        //                 sh """
+        //                     echo "Creating or updating imagePullSecret in namespace mock-project"
+        //                     aws ecr get-login-password --region ${REGION} | \
+        //                     kubectl create secret docker-registry ecr-registry-secret \
+        //                     --docker-server=${AWS_ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com \
+        //                     --docker-username=AWS \
+        //                     --docker-password=\$(aws ecr get-login-password --region ${REGION}) \
+        //                     --namespace=mock-project \
+        //                     --dry-run=client -o yaml | kubectl apply -f -
+
+        //                     echo "Verifying imagePullSecret existence..."
+        //                     kubectl get secret ecr-registry-secret -n mock-project
+        //                 """
+        //             }
+        //         }
+        //     }
+        // }      
     }
 }
