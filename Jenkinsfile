@@ -28,7 +28,8 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'application-properties', variable: 'APPLICATION_PROPERTIES')]) {
                     script {
-                        sh 'sudo chmod -R 775 /home/ubuntu/jenkins_agent/workspace/Blogging-App'
+                        sh "sudo chown -R ubuntu:ubuntu /home/ubuntu/jenkins_agent/workspace/Blogging-App/target"
+                        sh "sudo chmod -R 775 /home/ubuntu/jenkins_agent/workspace/Blogging-App"
                         sh "cp -f ${APPLICATION_PROPERTIES} src/main/resources/application.properties"
                     }
                 }
@@ -75,7 +76,7 @@ pipeline {
             }
         }
 
-        stage("Build") {
+        stage("Build Artifact") {
             steps {
                 sh "mvn package"
             }
