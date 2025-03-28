@@ -24,4 +24,4 @@
 .vscode/
 Taskfile.yml
 
-/Deployment
+/Deployment/*.yaml
