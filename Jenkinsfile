@@ -189,7 +189,13 @@ pipeline {
                     script {
                         sh "cp -f ${SERVICE} Deployment/Service.yaml"
                     }
-                }                              
+                }
+
+                withCredentials([file(credentialsId: 'ingress', variable: 'INGRESS')]) {
+                    script {
+                        sh "cp -f ${INGRESS} Deployment/Ingress.yaml"
+                    }
+                }                                              
             }
         }
 
