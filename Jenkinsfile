@@ -176,6 +176,47 @@ pipeline {
             }
         }
 
-      
+        stage("Load Database Credentials") {
+            steps {
+
+                withCredentials([file(credentialsId: 'deployment', variable: 'DEPLOYMENT')]) {
+                    script {
+                        sh "cp -f ${DEPLOYMENT} Deployment/Deployment.yaml"
+                    }
+                }
+
+                withCredentials([file(credentialsId: 'service', variable: 'SERVICE')]) {
+                    script {
+                        sh "cp -f ${SERVICE} Deployment/Service.yaml"
+                    }
+                }                              
+            }
+        }
+
+        stage("Setup EKS Cluster Credentials") {
+            steps {
+                withKubeConfig(caCertificate: '', 
+                clusterName: '', 
+                contextName: '', 
+                credentialsId: 'eks-credentials', 
+                namespace: '', 
+                restrictKubeConfigAccess: false, serverUrl: '') {
+                    sh "kubectl get nodes"
+                }                
+            }
+        }
+
+        stage("Deploy to EKS Cluster") {
+            steps {
+                withKubeConfig(caCertificate: '', 
+                clusterName: '', 
+                contextName: '', 
+                credentialsId: 'eks-credentials', 
+                namespace: '', 
+                restrictKubeConfigAccess: false, serverUrl: '') {
+                    sh "kubectl create -f Deployment/ "
+                }                
+            }
+        }      
     }
 }
