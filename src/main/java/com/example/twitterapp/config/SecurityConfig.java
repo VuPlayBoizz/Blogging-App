@@ -30,7 +30,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/register").permitAll()
                         .requestMatchers("/home").permitAll()
-                        .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/images/**").permitAll()
                         .anyRequest().authenticated()
                 )
