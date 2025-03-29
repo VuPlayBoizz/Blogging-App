@@ -16,7 +16,7 @@ pipeline {
         stage("Git Checkout") {
             steps {
                 git(
-                    branch: "master",
+                    branch: "${BRANCH}",
                     credentialsId: "git-credentials",
                     url: "https://github.com/VuPlayBoizz/Blogging-App.git"
                 )
@@ -96,7 +96,6 @@ pipeline {
         stage("Docker Build Images") {
             steps {
                 script {
-                    // Đọc commit id từ file commit-id làm tag cho image Docker
                     env.IMAGE_TAGS = readFile('commit-id').trim()
                     env.IMAGE_NAME = "${DOCKER_USERNAME}/${PROJECT_NAME}:${IMAGE_TAGS}"
 
