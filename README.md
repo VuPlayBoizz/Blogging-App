@@ -47,4 +47,6 @@ src/main/java/com/example/twitterapp/
 | POST   | `/api/posts`         | Create a new post |
 | GET    | `/api/posts`         | Retrieve all posts |
 
+## /CI-CD Pipeline
+![pictutr](https://github.com/user-attachments/assets/775aad1d-7c43-48b6-9c07-c8049bdf0374)
 
